@@ -31,7 +31,7 @@ def searchURL():
 
         Title.config(text=youtube.title)
 
-        with urllib.request.urlopen(youtube.thumbnail_url) as u: #pytube.YouTube("https://www.youtube.com/watch?v=b-Y01c1LsOM")
+        with urllib.request.urlopen(youtube.thumbnail_url) as u:
             raw_data = u.read()
         im = Image.open(BytesIO(raw_data)) #BytesIO(raw_data)
         im = im.resize((300,250), Image.ANTIALIAS) #w, h
