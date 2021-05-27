@@ -8,12 +8,19 @@ def clear():
     system("cls") if name == "nt" else system("clear")
 
 def board():
-    tab = 0
+    print("-------")
+    print("|"+ field[0] + "|" + field[1] + "|" + field[2] + "|")
+    print("-------")
+    print("|"+ field[3] + "|" + field[4] + "|" + field[5] + "|")
+    print("-------")
+    print("|"+ field[6] + "|" + field[7] + "|" + field[8] + "|")
+    print("-------")
+    """tab = 0
     for char in field:
         print(char + ' ', end = '')
         tab += 1
         if tab % 3 == 0:
-            print("\n")
+            print("\n")"""
 
 def playerO():
     plr = None
