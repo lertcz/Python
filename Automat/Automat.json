@@ -1,0 +1,30 @@
+{
+    "Sigma" : "ab",
+    "Start" : "S",
+    "Finish" : "F",
+    "States": ["S", "Q1", "F"],
+    
+    "Nodes" : [
+        {
+            "Start" : "S",
+            "Cond" : "a",
+            "End" : "Q1"
+        },
+        {
+            "Start" : "Q1",
+            "Cond" : "a",
+            "End" : "Q1"
+        },
+        {
+            "Start" : "Q1",
+            "Cond" : "b",
+            "End" : "F"
+        },
+        {
+            "Start" : "F",
+            "Cond" : "b",
+            "End" : "F"
+        }
+    ]
+        
+}

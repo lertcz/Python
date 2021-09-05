@@ -1,0 +1,45 @@
+{
+    "Sigma" : "01",
+    "Start" : ["Q0"],
+    "Finish" : ["Q2"],
+    "States": ["Q0", "Q1", "Q2", "Q3", "Q4"],
+    
+    "Nodes" : [
+        {
+            "Start" : "Q0",
+            "Cond" : "1",
+            "End" : "Q1"
+        },
+        {
+            "Start" : "Q1",
+            "Cond" : "1",
+            "End" : "Q0"
+        },
+        {
+            "Start" : "Q0",
+            "Cond" : "",
+            "End" : "Q2"
+        },
+        {
+            "Start" : "Q2",
+            "Cond" : "0",
+            "End" : "Q3"
+        },
+        {
+            "Start" : "Q3",
+            "Cond" : "0",
+            "End" : "Q2"
+        },
+        {
+            "Start" : "Q2",
+            "Cond" : "1",
+            "End" : "Q4"
+        },
+        {
+            "Start" : "Q4",
+            "Cond" : "0",
+            "End" : "Q2"
+        }
+    ]
+        
+}
