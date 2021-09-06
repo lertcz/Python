@@ -19,11 +19,11 @@ class Simulation():
         self.Sigma = Sigma
         self.Current = ""
     
-    def findStart(self, states):
+    """ def findStart(self, states):
         for node in states:
             if node == self.Start:
                 self.Current = node
-                return
+                return """
     
     def isDeterministic(self, data):
         Transitions = []
@@ -64,7 +64,11 @@ class Simulation():
                     break
             
             if not found: # check if the transition didn't pass
-                raise TransitionNotFound(f"Transition from state: {self.Current} with cond: {char} not found!")
+                #TODO fix if transition does not exist!!!
+                print(len(data["Start"]))
+                if len(data["Start"]) == 1:
+                    raise TransitionNotFound(f"Transition from state: {self.Current} with cond: {char} not found!")
+                else: return
 
     def checkEndState(self): # check if the automata ended on finish node
         return self.Current in self.Finish
@@ -75,28 +79,73 @@ class Simulation():
         #    return False
 
     def detectEpsilon(self, data):
+        global transitionPos
+        transitionPos = 0
         for node in data["Nodes"]:
             condition = node["Cond"]
             if condition == "":
                 return [True, node["Start"], node["End"]]
-        return False
+            transitionPos += 1
+        return [False, "", ""]
 
     def epsilonRemoval(self, data):
         detected, node1, node2 = self.detectEpsilon(data)
 
         if detected:
-            print(f"epsilon: {node1}, {node2}")
+            debug(f"epsilon transition nodes: {node1}, {node2}")
+            node2Cond, node2End, node2EndPos = [], [], []
 
-            return True
+            #find all outgoing transitions from node2
+            position = 0
+            for node in data["Nodes"]:
+                if node["Start"] == node2:
+                    node2Cond.append(node["Cond"])
+                    node2End.append(node["End"])
+                    node2EndPos.append(position)
+                position += 1
+            
+            debug(node2Cond + node2End + node2EndPos)
+
+            # delete the epsilon transition
+            del data["Nodes"][transitionPos]
+            debug(f"deleted epislon transition: {transitionPos}")
+
+            #assign the transitions
+            for x in range(len(node2Cond)):
+                nodeData = {
+                    "Start" : f"{node1}",
+                    "Cond" : f"{node2Cond[x]}",
+                    "End" : f"{node2End[x]}"
+                }
+                data["Nodes"].insert(node2EndPos[x], nodeData)
+
+            #add nodes in start or finish variables if needed
+            if node1 in data["Start"]:
+                data["Start"].append(node2)
+                self.Finish = data["Start"]
+            
+            if node2 in data["Finish"]:
+                data["Finish"].append(node1)
+                self.Finish = data["Finish"]
+            
+            #print(data["Start"], data["Finish"])
+
+
+            return True # !change to True 
         
         else:
             return False
 
+    def runAllStarts(self, data, Input):
+        for start in data["Start"]:
+            #set the start
+            self.Current = start
+            #check if the automat is deterministic
+            self.deterministic(data, Input)
+            return self.checkEndState()
 
-    def simulate(self, states, Input, data):
-        self.findStart(states)
-        #while self.epsilonRemoval(data): pass
-        self.deterministic(data, Input)
-        return self.checkEndState()
+    def simulate(self, Input, data):
+        while self.epsilonRemoval(data): pass
+        return self.runAllStarts(data, Input)
 
         

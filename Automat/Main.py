@@ -4,7 +4,7 @@ from Process.Simulation import Simulation
 #Σ
 
 #init 
-data = getData("Automat.json") #"Automat_Epsilon.json")
+data = getData("Automat_Epsilon_Deterministic.json")
 parse = Parse(data)
 simulation = Simulation(parse.returnStart(), parse.returnFinish(), parse.getSigma())
 
@@ -18,9 +18,7 @@ print(states)
 Input = input("Input: ")
 
 #simulation
-output = simulation.simulate(states, Input, data)
+output = simulation.simulate(Input, data)
 
 #output
 print(output)
-
-#file:///C:/Users/Pavel/Desktop/IFJ/Ifj04-anim-cz.pdf
